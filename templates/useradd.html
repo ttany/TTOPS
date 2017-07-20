@@ -1,0 +1,159 @@
+{% extends "tables.html" %}
+
+{% block main_css %}{% endblock %}
+{% block content %}
+<div class="col-md-12">
+    <div class="alert alert-success"  role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>添加成功</strong> 新用户注册成功.
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><b>添加 用户</b></div>
+        <div class="panel-body">
+
+            <div class="block">
+
+                <form id="jvalidate" role="form" class="form-horizontal" >
+                    <div class="panel-body">
+                        *登录信息(必填项)
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label ">邮箱:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="email"/>
+                                <span class="help-block">@前部分将作为登录用户名</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">密码:</label>
+                            <div class="col-md-4">
+                                <input type="password" class="form-control" name="password" id="password2"/>
+                                <span class="help-block">不少于5位</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">重复密码:</label>
+                            <div class="col-md-4">
+                                <input type="password" class="form-control" name="re-password"/>
+                                <span class="help-block">输入相同密码</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">激活:</label>
+                            <div class="col-md-4" style="padding-top: 6px">
+                                <input type="checkbox" checked/>
+                                <span class="help-block">启用账户</span>
+                            </div>
+                        </div>
+
+
+                        其它信息(必填项)
+                        <hr>
+                         <div class="form-group">
+                            <label class="col-md-1 control-label">用户组:</label>
+                            <div class="col-md-4">
+                                <select class="form-control select">
+                                    <option>普通用户</option>
+                                    <option>1111</option>
+                                    <option>2222</option>
+                                    <option>3333</option>
+                                    <option>4444</option>
+                                    <option>5555</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">姓名</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="name"/>
+                                <span class="help-block">至少两个字符</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">电话:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="tel"/>
+                                <span class="help-block">只能输入数字</span>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="pull-right">
+                            <button class="btn btn-primary" type="button" onClick="jvalidate.resetForm();$('#gender').next('.bootstrap-select').removeClass('error').removeClass('valid')">放弃</button>
+                            <button class="btn btn-primary" type="submit">保存</button>
+
+                        </div>
+                    </div>
+                </form>
+                <!-- END JQUERY VALIDATION PLUGIN -->
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+
+{% block main_js %}
+    <script type="text/javascript" src="/static/js/plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <script type='text/javascript' src='/static/js/plugins/icheck/icheck.min.js'></script>
+
+     <script type="text/javascript">
+            window.setTimeout(function(){
+                $('[data-dismiss="alert"]').alert('close');
+            },3000);
+
+            var jvalidate = $("#jvalidate").validate({
+                ignore: [],
+                rules: {
+                        name: {
+                                required: false,
+                                minlength: 2,
+                                maxlength: 8
+                        },
+                        password: {
+                                required: true,
+                                minlength: 5,
+                                maxlength: 15
+                        },
+                        're-password': {
+                                required: true,
+                                minlength: 5,
+                                maxlength: 15,
+                                equalTo: "#password2"
+                        },
+                        active: {
+                                required: true,
+                        },
+                        email: {
+                                required: true,
+                                email: true
+                        },
+                        role: {
+                                required: true,
+                                //date: true
+                        },
+                        tel: {
+                                required: false,
+                                digits: true
+                        },
+
+                    },
+                    submitHandler: function() {
+                      alert("提交事件!");
+                    }
+                });
+
+        </script>
+
+
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends "tables.html" %}
+
+
+{% block content %}
+<div class="col-md-12">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <form class="form-inline" role="form">
+                 <button type="button" class="btn btn-danger pull-left mb-control" id="deleteAll">批量删除</button>
+                    <div class="form-group col-md-2">
+                         <select class="form-control select pull-right">
+                             <option>角色过滤</option>
+                             <option>全部</option>
+                             <option>测试组</option>
+                             <option>开发组</option>
+                             <option>运维组</option>
+                             <option>产品组</option>
+                         </select>
+
+                    </div>
+                    <div class="form-group col-md-2">
+                         <select class="form-control select ">
+                             <option>状态过滤</option>
+                             <option>全部</option>
+                             <option>有效</option>
+                             <option>无效</option>
+                         </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="input-group col-md-12">
+                            <input class="form-control" type="text" placeholder="关键字"/>
+                        </div>
+                    </div>
+                    <button class="btn btn-default">搜索</button>
+                    <a href="/system/users/add/" class="btn btn-success  pull-right"><span class="fa fa-plus-circle"></span>添加用户</a>
+            </form>
+            <hr>
+            <table id="example" class="table table-striped" width="100%">
+                <thead>
+                <tr>
+                    <th>
+                        <input  type="checkbox" class="checkall" />
+                    </th>
+                    <th>用户名</th>
+                    <th>角色</th>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>状态</th>
+                    <th>最后登录</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block message_box %}
+
+{% endblock %}
+
+
+{% block main_js %}
+    <script type="text/javascript" src="/static/js/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/static/js/database_plugins.js"></script>
+    <script type="text/javascript">
+    $(function () {
+             //获取chebox选中的值
+        $("#deleteAll").click(function () {
+           var theArray=[];
+                    $("input[name=id]:checked").each(function() {
+		                theArray.push($(this).siblings().eq(0).val());
+                    });
+                    if(theArray.length<1){
+                        bootbox.alert({      	//快速确认模态框（bootbox）的alert 仅仅一个提示
+                            buttons: {
+                                ok: {
+                                    label: '关闭',
+                                    className: 'btn-sm'
+                                }
+                            },
+                            size: 'small',
+                            message: "至少选择一个",
+                            title: "提示",
+                        });
+                    }else{
+                        //alert(theArray);  //theArray是一个数组
+                        bootbox.confirm({    //快速确认模态框（bootbox）的confirm
+                            buttons: {
+                                confirm: {
+                                    label: '确认',
+                                    className: 'btn-sm btn-primary'
+                                },
+                                cancel: {
+                                    label: '放弃',
+                                    className: 'btn-sm '
+                                }
+                            },
+                            size: 'small',
+                            message: "<b style='font-size:16;color:red'>确认删除</b> 所选用户吗? 删除后将<b style='font-size:16;color:red'>无法恢复！</b>",
+                            title:"警告消息",
+                            callback: function(result){
+                                //alert("提交成功");
+                                if(result){   //判断返回值，确定是否删除成功
+                                   alert("提交成功");
+
+                                }
+
+                            }
+                        });
+
+
+                    }
+        });
+
+
+    });
+
+
+    </script>
+
+{% endblock %}

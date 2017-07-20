@@ -1,0 +1,129 @@
+{% extends "tables.html" %}
+
+{% block main_css %}
+
+{% endblock %}
+{% block content %}
+<div class="col-md-12">
+    <div class="alert alert-success"  role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>添加成功</strong> 新用户注册成功.
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><b>添加 用户组</b></div>
+        <div class="panel-body">
+            <div class="block">
+
+                <form id="jvalidate" role="form" class="form-horizontal" >
+                    <div class="panel-body">
+                        *基本信息(必填项)
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label ">名称:</label>
+                            <div class="col-md-4">
+                                <input type="text" id="group_name" class="form-control" name="name"/>
+                                <span class="help-block">输入组名称</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label ">描述:</label>
+                            <div class="col-md-4">
+                                <textarea cols=40 rows=4></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                        <br/>
+                        <br/>
+                        权限 (必填项)
+                        <hr>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <!--所有权限都显示在左侧select，当右侧存在左侧会自动不显示-->
+                            <select name="from" id="multiselect" class="form-control" size="10" multiple="multiple">
+                                {% for line in perm_all %}
+                                    <option value="{{ line.id }}">{{ line }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                            <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                            <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                            <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                        </div>
+
+                        <div class="col-xs-5">
+                            <!--直接读取右侧的所有选项，整体添加给当前组即可-->
+                            <select name="to" id="multiselect_to" class="form-control" size="10" multiple="multiple">
+                                {% for g_perms in group_perms %}
+                                    <option value="{{ g_perms.id }}">{{ g_perms }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+
+                        <hr>
+                        <div class="pull-right">
+                            <button class="btn btn-primary" type="button" onClick="jvalidate.resetForm();$('#gender').next('.bootstrap-select').removeClass('error').removeClass('valid')">放弃</button>
+                            <button class="btn btn-primary" type="submit">保存</button>
+
+                        </div>
+
+                </form>
+                <!-- END JQUERY VALIDATION PLUGIN -->
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+
+{% block main_js %}
+    <script type="text/javascript" src="/static/js/plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="/static/js/plugins/jquery-validation/localization/messages_zh.js"></script>
+    <script src="/static/js/plugins/multiselect.min.js"></script>
+
+     <script type="text/javascript">
+
+
+            window.setTimeout(function(){
+                $('[data-dismiss="alert"]').alert('close');
+            },3000);
+
+            var jvalidate = $("#jvalidate").validate({
+                ignore: [],
+                rules: {
+                        name: {
+                                required: true,
+                                minlength: 2,
+                                maxlength: 8
+                        },
+
+
+                    },
+                    submitHandler: function() {
+                      alert("提交事件!");
+                    }
+                });
+
+
+
+              //初始化多选框
+        $('#multiselect').multiselect();
+
+        </script>
+
+
+{% endblock %}
